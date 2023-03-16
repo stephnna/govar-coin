@@ -4,18 +4,19 @@ pragma solidity ^0.8.9;
 import "@openzeppelin/contracts@4.8.2/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts@4.8.2/token/ERC721/extensions/ERC721Enumerable.sol";
 import "@openzeppelin/contracts@4.8.2/token/ERC721/extensions/ERC721URIStorage.sol";
-import "@openzeppelin/contracts@4.8.2/access/Ownable.sol";
 import "@openzeppelin/contracts@4.8.2/utils/Counters.sol";
 
-contract Gova is ERC721, ERC721Enumerable, ERC721URIStorage, Ownable {
+contract Govar is ERC721, ERC721Enumerable, ERC721URIStorage {
     using Counters for Counters.Counter;
 
-    Counters.Counter private _tokenIdCounter;
+    Counters.Counter private _tokenIdCounter;    
+    uint256 MAX_SUPPLY = 10000;    
 
-    constructor() ERC721("Gova", "GOV") {}
+    constructor() ERC721("Govar", "GOV") {}
 
-    function safeMint(address to, string memory uri) public onlyOwner {
+    function safeMint(address to, string memory uri) public {
         uint256 tokenId = _tokenIdCounter.current();
+        require(_tokenIdCounter.current() <= MAX_SUPPLY, "I'm sorry we reached the cap");
         _tokenIdCounter.increment();
         _safeMint(to, tokenId);
         _setTokenURI(tokenId, uri);
